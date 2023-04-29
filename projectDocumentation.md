@@ -1,4 +1,5 @@
 # Cobalt Assignment Project Documentaion(Backend Developer Internship)
+#
 
  <details close>
  <summary><h1>What is OAuth ?</h1></summary>
@@ -75,13 +76,15 @@ To make eSignature REST API calls with the SDK, you need:
 - A current accessToken.
 - The basePath for the API call.
 - For most API calls, you’ll also need the relevant accountId. Note that it is common for a user to be a member of multiple accounts.
+ 
+#
 
-<details close>
-<summary><h1> Integration of Auth with DocUsign</h1></summary>
+# Integration of Auth with DocUsign
+#
+ 
+***Obtaining an access token***
 
-**Obtaining an access token**
-
-The goal of authentication is to obtain an access token. An `access token` is needed for every API call to DocuSign.
+> The goal of authentication is to obtain an access token . An `access token` is needed for every API call to DocuSign.
 
 **Determining OAuth flow**
 
@@ -89,8 +92,9 @@ The goal of authentication is to obtain an access token. An `access token` is ne
 
 2.JSON Web Tokens (JWT) with Node.js
 
-# Now, Authentication Part
-
+#  Authentication Part
+#
+ 
 ### Obtaining an access token
 * The goal of authentication is to obtain an access token. An access token is needed for every API call to DocuSign. Access tokens last from one to eight hours, depending on the grant type used to obtain the access token.
 
@@ -101,7 +105,8 @@ The goal of authentication is to obtain an access token. An `access token` is ne
       2.requestJWTApplicationToken.
 
 ### Information we need to get JWT token.
-
+#
+ 
 1. Integration key (client ID):
 2. RSA private key:
 3. Base path:
@@ -112,7 +117,8 @@ The goal of authentication is to obtain an access token. An `access token` is ne
 > All these data is avaiilable in `App and keys` section of your developer account.
 
 ### Intialising docuSign API client
-
+#
+ 
 * We need this to generate the token.
 ```js
 let dsApiClient = new docusign.ApiClient();
@@ -136,10 +142,9 @@ let dsApiClient = new docusign.ApiClient();
 
 > Now, our application is `authenticated`, now we can make starting calls to our docUsign Api.
 
-</details>
-
 
 ### How to request a signature by email using a template(remote signing)
+#
 
 * From all required data we need `TemplateID`, so we need to create a template inside our `DocUsign`.
 * And, for that we need a PDF.
@@ -149,12 +154,12 @@ Step 2. Create an envelope definition from a template  --> we created a new temp
 Step 3. Create and send the envelope.
 
 
-# Now envelop is created, Now done signing ceremony to the envelop we created 
-
+### Now envelop is created, Now done signing ceremony to the envelop we created 
+#
+ 
 // https://developers.docusign.com/docs/esign-rest-api/how-to/request-signature-in-app-embedded/
 
-
 # Challenges face
-
+#
 * Not able to use JWT grant function  - `requestJWTApplicationToken`, IDK its not working in code.
 * Granting the consent.
