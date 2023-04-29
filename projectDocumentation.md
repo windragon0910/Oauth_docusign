@@ -161,5 +161,5 @@ Step 3. Create and send the envelope.
 
 # Challenges face
 #
-* Not able to use JWT grant function  - `requestJWTApplicationToken`, IDK its not working in code.
+* Not able to use JWT grant function  - `requestJWTApplicationToken`.
 * Granting the consent.
