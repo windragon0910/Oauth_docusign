@@ -57,21 +57,6 @@
      |        |<-(F)--- Protected Resource ---|               |
      +--------+                               +---------------+
 </details>
-<details close>
-<summary><h1> Integration of Auth with DocUsign</h1></summary>
-
-**Obtaining an access token**
-
-The goal of authentication is to obtain an access token. An `access token` is needed for every API call to DocuSign.
-
-**Determining OAuth flow**
-
-1.Authorization Code Grant with Node.js
-
-2.JSON Web Tokens (JWT) with Node.js
-
-> In this project  i start using JWT OAuth flow because in my previous projects i done one authentication using JWT tokens.
-
 
 # Journey
 
@@ -90,6 +75,19 @@ To make eSignature REST API calls with the SDK, you need:
 - A current accessToken.
 - The basePath for the API call.
 - For most API calls, you’ll also need the relevant accountId. Note that it is common for a user to be a member of multiple accounts.
+
+<details close>
+<summary><h1> Integration of Auth with DocUsign</h1></summary>
+
+**Obtaining an access token**
+
+The goal of authentication is to obtain an access token. An `access token` is needed for every API call to DocuSign.
+
+**Determining OAuth flow**
+
+1.Authorization Code Grant with Node.js
+
+2.JSON Web Tokens (JWT) with Node.js
 
 # Now, Authentication Part
 
@@ -138,6 +136,9 @@ let dsApiClient = new docusign.ApiClient();
 
 > Now, our application is `authenticated`, now we can make starting calls to our docUsign Api.
 
+</details>
+
+
 ### How to request a signature by email using a template(remote signing)
 
 * From all required data we need `TemplateID`, so we need to create a template inside our `DocUsign`.
@@ -146,6 +147,12 @@ let dsApiClient = new docusign.ApiClient();
 Step 1. Obtain your OAuth token  --> the JWT we already got
 Step 2. Create an envelope definition from a template  --> we created a new template and get his template id
 Step 3. Create and send the envelope.
+
+
+# Now envelop is created, Now done signing ceremony to the envelop we created 
+
+// https://developers.docusign.com/docs/esign-rest-api/how-to/request-signature-in-app-embedded/
+
 
 # Challenges face
 

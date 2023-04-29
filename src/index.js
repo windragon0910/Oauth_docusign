@@ -1,5 +1,5 @@
 const express = require(`express`);
-const {PORT,INTEGRATION_KEY,USER_ID,BASE_PATH, TEMPLATE_ID,ACCOUNT_ID} = require('../config/config');
+const {PORT,INTEGRATION_KEY,USER_ID,BASE_PATH, TEMPLATE_ID,ACCOUNT_ID,CLIENT_USER_ID} = require('../config/config');
 const path = require('path');
 const app = express();
 const body_parser = require('body-parser');
@@ -49,7 +49,7 @@ function makeEnvelope(name, email, company){
        email: email,
        name: name,
        tabs: tabs,
-       clientUserId: process.env.CLIENT_USER_ID,
+       clientUserId: CLIENT_USER_ID,
        roleName: 'Applicant'});
  
     env.templateRoles = [signer1];
@@ -67,16 +67,18 @@ app.post('/form',async(req,res)=>{
 
         await checkToken(req);
         let envelopesApi = getEnvelopesApi(req);        
-        // Make the envelope request body
+
         let envelope = makeEnvelope(req.body.name, req.body.email);
-    
-        // Call Envelopes::create API method
-        // Exceptions will be caught by the calling function
+
         let results = await envelopesApi.createEnvelope(
         ACCOUNT_ID, {envelopeDefinition: envelope});
         
-    console.log("envelop results ", results);
-    res.send('recieved')
+        console.log("envelop results ", results);
+        let viewRequest = makeRecipientViewRequest(req.body.name, req.body.email);
+        results = await envelopesApi.createRecipientView(ACCOUNT_ID, results.envelopeId,
+            {recipientViewRequest: viewRequest});
+        
+        res.redirect(results.url)
 })
 
 function getEnvelopesApi(request) {
@@ -85,6 +87,25 @@ function getEnvelopesApi(request) {
     dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + request.session.access_token);
     return new docusign.EnvelopesApi(dsApiClient);
 }
+
+function makeRecipientViewRequest(name,email) {
+
+    let viewRequest = new docusign.RecipientViewRequest();
+    viewRequest.returnUrl = 'http://localhost:3000/success'
+
+    viewRequest.authenticationMethod = 'none';
+
+    viewRequest.email = email;
+    viewRequest.userName = name;
+    viewRequest.clientUserId = CLIENT_USER_ID;
+
+    return viewRequest
+}
+
+app.get('/success', (req,res)=>{
+    res.send("SUCCESS")
+})
+
 
 app.listen(PORT, () => {
     console.log(`Server started at ${PORT}`);
